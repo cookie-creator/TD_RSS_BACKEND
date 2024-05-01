@@ -1,0 +1,83 @@
+version: "3.3"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: .ci-cd/Dockerfile
+      args:
+        - DEV_BUILD=true
+    volumes:
+      - ./:/var/www/api
+      - ./.env:/var/www/api/.env
+    extra_hosts:
+        - 'host.docker.internal:host-gateway'
+    ports:
+      - "${WEB_PORT:-8882}:8080"
+    env_file:
+      - .env.docker
+
+  backend-test-runner:
+    build:
+      context: .
+      dockerfile: .ci-cd/Dockerfile
+      args:
+        - DEV_BUILD=true
+    volumes:
+      - ./.env.testing.local:/var/www/api/.env
+      - ./reports:/var/www/api/reports
+      - ./:/var/www/api
+    environment:
+      PHP_MEMORY_LIMIT: 1024M
+    depends_on:
+      - mysql-test
+      - mailhog
+
+  php-worker:
+    build:
+      context: .
+      dockerfile: .ci-cd/Dockerfile
+      args:
+        - DEV_BUILD=true
+    volumes:
+      - ./:/var/www/api
+      - ./.env:/var/www/api/.env
+    restart: always
+    env_file:
+      - .env.docker
+    command: [ "./.ci-cd/entrypoint.sh", "/usr/local/bin/php /var/www/api/artisan queue:work --queue default,update_jira_issues,jira_tokens_update,jira_webhook_update,jira_resync,payments" ]
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    ports:
+      - "${DB_EXT_PORT:-33062}:3306"
+    volumes:
+      - ./storage/.mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-tdrssdb}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-tdrssroot}
+      MYSQL_USER: ${DB_USERNAME:-tdrssuser}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-tdrsspassword}
+
+  mysql-test:
+      image: mysql/mysql-server:8.0
+      container_name: tdrss-mysql-test
+      environment:
+          MYSQL_DATABASE: tdrssdb_testing
+          MYSQL_ROOT_PASSWORD: tdrssroot
+          MYSQL_USER: tdrssuser
+          MYSQL_PASSWORD: tdrsspassword
+      healthcheck:
+          test: "mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD"
+          timeout: 20s
+          interval: 5s
+          retries: 10
+
+  redis:
+    image: redis:7
+
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - "1025:1025"
+      - "8025:8025"
