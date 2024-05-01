@@ -7,11 +7,15 @@
     "require": {
         "php": "^8.1",
         "ext-simplexml": "*",
+        "barryvdh/laravel-ide-helper": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "rakutentech/laravel-request-docs": "^2.35"
+        "rakutentech/laravel-request-docs": "^2.35",
+        "saloonphp/xml-wrangler": "^1.2",
+        "spatie/laravel-medialibrary": "^11.4",
+        "spatie/laravel-sluggable": "^3.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -19,6 +23,7 @@
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
+        "pestphp/pest": "^2.34",
         "phpunit/phpunit": "^10.1",
         "spatie/laravel-ignition": "^2.0"
     },
