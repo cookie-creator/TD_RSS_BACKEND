@@ -1,0 +1,43 @@
+FROM php:8.2-fpm
+
+WORKDIR /var/www/api
+
+ARG APP_USER=www-data
+ARG DEV_BUILD
+
+
+# PHP_OPCACHE_VALIDATE_TIMESTAMPS: When disabled, you must reset the OPcache manually or restart the
+# webserver for changes to the filesystem to take effect.
+# For Development / testing, keep 1
+# For performance / production, keep 0
+ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
+    PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
+    PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
+    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
+
+EXPOSE 8080
+
+RUN apt update -y && \
+    apt-get install -y  \
+      nginx \
+      libzip-dev \
+      libicu-dev \
+      libonig-dev \
+      libpng-dev  \
+      libjpeg-dev  \
+      libwebp-dev  \
+      libfreetype6-dev \
+      ghostscript
+
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apt-get install -y --no-install-recommends --no-install-suggests supervisor cron procps lsof
+RUN pecl install -o -f redis &&  rm -rf /tmp/pear &&  docker-php-ext-enable redis
+RUN apt-get install -y \
+    libmagickwand-dev --no-install-recommends \
+    && pecl install imagick \
+	&& docker-php-ext-enable imagick
+
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install pdo_mysql gd zip bcmath exif pcntl gd
+

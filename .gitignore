@@ -1,0 +1,24 @@
+# PhpStorm
+/.idea
+# VScode
+/.vscode
+
+# Docker Compose
+.env
+.env.docker
+.env.backup
+
+/node_modules
+/public/hot
+/public/storage
+bootstrap/cache
+/storage/*.key
+/vendor
+.phpunit.result.cache
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+storage
+reports
