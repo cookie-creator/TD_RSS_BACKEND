@@ -11,6 +11,18 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
+        <testsuite name="Auth">
+            <directory>tests/Pest/Auth</directory>
+        </testsuite>
+        <testsuite name="Feed">
+            <directory>tests/Pest/Feed</directory>
+        </testsuite>
+        <testsuite name="Posts">
+            <directory>tests/Pest/Posts</directory>
+        </testsuite>
+        <testsuite name="Categories">
+            <directory>tests/Pest/Categories</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>

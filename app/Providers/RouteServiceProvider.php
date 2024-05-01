@@ -33,6 +33,30 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
+            Route::prefix('api/v1/auth')
+                ->middleware('api')
+                ->name('api.v1.auth.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/auth.php'));
+
+            Route::prefix('api/v1/feed')
+                ->middleware('api')
+                ->name('api.v1.feed.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/feed.php'));
+
+            Route::prefix('api/v1')
+                ->middleware(['api', 'auth:sanctum'])
+                ->name('api.v1.post.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/posts.php'));
+
+            Route::prefix('api/v1')
+                ->middleware(['api', 'auth:sanctum'])
+                ->name('api.v1.category.')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/categories.php'));
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });

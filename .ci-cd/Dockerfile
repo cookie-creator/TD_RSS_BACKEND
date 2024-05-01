@@ -64,8 +64,11 @@ RUN apt update -y && \
       libjpeg-dev  \
       libwebp-dev  \
       libfreetype6-dev \
-      ghostscript
-
+      ghostscript \
+      libxslt-dev \
+      libexslt-dev  \
+      libicu-dev \
+      libxml-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN apt-get install -y --no-install-recommends --no-install-suggests supervisor cron procps lsof
@@ -74,6 +77,19 @@ RUN apt-get install -y \
     libmagickwand-dev --no-install-recommends \
     && pecl install imagick \
 	&& docker-php-ext-enable imagick
+
+RUN apt-get install -y \
+    libxslt-dev \
+    && docker-php-ext-enable libxslt-dev \
+RUN apt-get install -y \
+    libexslt-dev \
+    && docker-php-ext-enable libexslt-dev
+RUN apt-get install -y \
+    libicu-dev \
+    && docker-php-ext-enable libicu-dev \
+RUN apt-get install -y \
+    libxml-dev \
+    && docker-php-ext-enable libxml-dev \
 
 RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp && \
     docker-php-ext-install pdo_mysql gd zip bcmath exif pcntl gd
