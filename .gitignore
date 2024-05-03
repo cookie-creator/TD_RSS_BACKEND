@@ -7,6 +7,8 @@
 .env
 .env.docker
 .env.backup
+.env.testing
+.env.testing.local
 
 /node_modules
 /public/hot
