@@ -13,7 +13,7 @@ services:
     extra_hosts:
         - 'host.docker.internal:host-gateway'
     ports:
-      - "${WEB_PORT:-8882}:8080"
+      - "${WEB_PORT:-8081}:8080"
     env_file:
       - .env.docker
 
@@ -50,7 +50,7 @@ services:
   mysql:
     image: mysql/mysql-server:8.0
     ports:
-      - "${DB_EXT_PORT:-33062}:3306"
+      - "${DB_EXT_PORT:-33061}:3306"
     volumes:
       - ./storage/.mysql-data:/var/lib/mysql
     environment:

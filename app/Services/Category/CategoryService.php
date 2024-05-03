@@ -16,7 +16,7 @@ class CategoryService
      */
     public function getUserCategories(User $user): Collection
     {
-        return Category::where('user_id', $user->id)->get();
+        return Category::where('user_id', $user->id)->orderBy('name')->get();
     }
 
     /**

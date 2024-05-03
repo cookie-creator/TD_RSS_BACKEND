@@ -25,9 +25,10 @@ class UpdatePostRequest extends FormRequest
             'title' => 'string|required',
             'description' => 'string|nullable',
             'content' => 'string|nullable',
-            'link' => 'string|nullable',
+            'date' => 'string|nullable',
             'slug' => 'string|nullable',
             'category_id' => 'exists:categories,id',
+            'image' => 'nullable|string',
         ];
     }
 }

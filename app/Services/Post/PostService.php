@@ -24,7 +24,25 @@ class PostService
      */
     public function getUserPostsWithPagination(User $user): LengthAwarePaginator
     {
-        return Post::where('user_id', $user->id)->paginate(10);
+        return Post::where('user_id', $user->id)->latest()->paginate(10);
+    }
+
+    public function getUserPostsQueryByFilter(User $user, $attributes)
+    {
+        $fromDate = $attributes['from_date'] ?? false;
+        $toDate = $attributes['to_date'] ?? false;
+        $search = $attributes['search'] ?? false;
+
+        $postQuery = Post::query()
+            ->where('user_id', $user->id)
+            ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
+                $query->whereBetween('created_at', [$fromDate, $toDate]);
+            })
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%$search%");
+            })
+            ->latest();
+        return $postQuery;
     }
 
     /**

@@ -25,9 +25,9 @@ class StorePostRequest extends FormRequest
             'title' => 'string|required',
             'description' => 'string|nullable',
             'content' => 'string|nullable',
-//            'link' => 'string|nullable',
-//            'slug' => 'string|nullable',
+            'date' => 'string|nullable',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'nullable|string',
         ];
     }
 }

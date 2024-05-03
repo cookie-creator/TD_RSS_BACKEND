@@ -92,10 +92,6 @@ class ParsedPostsManager
             $post->addMediaFromString($imageContents)
                 ->usingFileName($imageName)
                 ->toMediaCollection('image');
-
-//            $media = $post->addMediaFromStream($imageUrl)
-//                ->usingFileName($imageName)
-//                ->toMediaCollection('image');
             } catch (Exception $e) {
             }
         }

@@ -10,26 +10,32 @@ class CategoryManager
 {
     public static function create(array $data)
     {
-        $name = $data['name'];
+        $slug = ($data['slug']) ? $data['slug'] : PostHelper::makeSlug($data['name']);
         $category = Category::create(array_merge($data,[
-            'slug' => PostHelper::makeSlug($name),
+            'slug' => $slug,
             'user_id' => auth()->id(),
         ]));
         return $category;
     }
 
-    public static function update(Category $category, array $data)
+    public static function update(int $categoryId, array $data)
     {
+        $slug = ($data['slug']) ? $data['slug'] : PostHelper::makeSlug($data['name']);
+        $category = Category::find($categoryId);
         $category->update(array_merge($data,[
-            'slug' => PostHelper::makeSlug($data['name']),
+            'slug' => $slug,
         ]));
 
         return $category;
     }
 
-    public static function delete(Category $category)
+    /**
+     * @param int $categoryId
+     * @return mixed
+     */
+    public static function delete(int $categoryId)
     {
-        Post::where('category_id', $category->id)->update(['category_id' => 0]);
-        return $category->delete();
+        Post::where('category_id', $categoryId)->update(['category_id' => 0]);
+        return Category::find($categoryId)->delete();
     }
 }

@@ -49,12 +49,9 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(
-        Category $category,
-        CategoryService $categoryService
-    ) {
+    public function show($categoryId, CategoryService $categoryService) {
         // $this->authorize('view', [auth()->user(), $post]);
-        $category = $categoryService->getUserCategory(auth()->user(), $category->id);
+        $category = $categoryService->getUserCategory(auth()->user(), $categoryId);
 
         return new CategoryResource($category);
     }
@@ -70,23 +67,21 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Category $category, UpdateCategoryRequest $request)
+    public function update($categoryId, UpdateCategoryRequest $request, CategoryManager $categoryManager)
     {
         // $this->authorize('update', [auth()->user(), $post]);
-
-        $category = CategoryManager::update($category, $request->validated());
-
+        $category = $categoryManager->update($categoryId, $request->validated());
         return new CategoryResource($category);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($categoryId)
     {
         // $this->authorize('delete', [auth()->user(), $post]);
 
-        $status = CategoryManager::delete($category);
+        $status = CategoryManager::delete($categoryId);
 
         if ($status) {
             return Response::json(

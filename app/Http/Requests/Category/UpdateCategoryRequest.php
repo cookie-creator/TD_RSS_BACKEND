@@ -23,6 +23,7 @@ class UpdateCategoryRequest extends FormRequest
     {
         return [
             'name' => 'string|required',
+            'slug' => 'string|required',
         ];
     }
 }

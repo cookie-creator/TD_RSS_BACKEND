@@ -22,7 +22,10 @@ class PostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'from_date'             => 'nullable|date_format:Y-m-d',
+            'to_date'               => 'nullable|date_format:Y-m-d',
+            'all'                   => 'boolean|nullable',
+            'search'                => 'string|nullable',
         ];
     }
 }

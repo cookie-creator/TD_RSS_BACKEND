@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Helpers\Http\ResponseCodes;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PostRequest;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\Post\PostResource;
@@ -11,16 +12,20 @@ use App\Managers\Post\PostManager;
 use App\Models\Post;
 use App\Services\Post\PostService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Database\Eloquent\Builder;
 
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(PostService $postService)
+    public function index(PostRequest $request, PostService $postService)
     {
-        $posts = $postService->getUserPostsWithPagination(auth()->user());
+        $postQuery = $postService->getUserPostsQueryByFilter(auth()->user(), $request->validated());
+
+        $posts = $request->boolean('all') ? $postQuery->get() : $postQuery->paginate($request->get('perPage', 15));
 
         return PostResource::collection($posts);
     }
@@ -36,27 +41,17 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request, PostManager $postManager)
     {
-        $post = PostManager::create($request->validated());
-
+        $post = $postManager->create($request->validated());
         return new PostResource($post);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(
-        Post $post,
-        PostService $postService
-    ) {
-//        try {
-//        $this->authorize('view', [auth()->user(), $post]);
-//        } catch (\Exception $e) {
-//            dump($e->getMessage());
-//        }
-        $post = $postService->getUserPost(auth()->user(), $post->id);
-
+    public function show($postId, PostService $postService) {
+        $post = $postService->getUserPost(auth()->user(), $postId);
         return new PostResource($post);
     }
 
@@ -71,11 +66,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Post $post, UpdatePostRequest $request)
+    public function update($postId, UpdatePostRequest $request, PostManager $postManager)
     {
         // $this->authorize('update', [auth()->user(), $post]);
 
-        $post = PostManager::update($post, $request->validated());
+        $post = $postManager->update($postId, $request->validated());
 
         return new PostResource($post);
     }
@@ -83,11 +78,11 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy($postId, PostManager $postManager)
     {
         // $this->authorize('delete', [auth()->user(), $post]);
 
-        $status = PostManager::delete(auth()->user(), $post);
+        $status = $postManager->delete($postId, auth()->user());
 
         if ($status) {
             return Response::json(
