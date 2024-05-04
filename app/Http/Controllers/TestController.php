@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Post\PostResource;
 use App\Models\Post;
 use App\Models\User;
+use App\Notifications\NewPostsWasImportedFromFeed;
 use App\Services\FeedRSS\FeedRSSService;
 use App\Services\Post\PostService;
 
@@ -12,7 +13,10 @@ class TestController extends Controller
 {
     public function index(FeedRSSService $feedRSSService, PostService $postService)
     {
-        $feedRSSService::start();
+        //$feedRSSService::start();
+
+        $user = User::find(1);
+        $user->notify(new NewPostsWasImportedFromFeed($user, 3));
 
         //$posts = $postService->getUserPostsQueryByFilter(User::find(1));
 

@@ -2,12 +2,13 @@
 
 namespace App\Managers\ParseRSS;
 
-use App\Helpers\PostHelper;
-use App\Models\Category;
+use Exception;
 use App\Models\Post;
 use App\Models\User;
-use Exception;
+use App\Models\Category;
+use App\Helpers\PostHelper;
 use Illuminate\Support\Collection;
+use App\Notifications\NewPostsWasImportedFromFeed;
 
 class ParsedPostsManager
 {
@@ -19,6 +20,7 @@ class ParsedPostsManager
     public function storePosts(Collection $parsedPosts)
     {
         $this->user = User::find(1);
+        $cntPostsAdded = 0;
 
         foreach ($parsedPosts as $parsedPost)
         {
@@ -42,12 +44,14 @@ class ParsedPostsManager
 
                     $this->uploadImage($post, $parsedPost['image']);
 
-                    // $this->feedRepository->storeImage($post, $imageName);
-
+                    $cntPostsAdded++;
                 } catch (\Exception $e) {
                     dd($e->getMessage());
                 }
             }
+        }
+        if ($cntPostsAdded > 0) {
+            $this->user->notify(new NewPostsWasImportedFromFeed($this->user, $cntPostsAdded));
         }
     }
 
