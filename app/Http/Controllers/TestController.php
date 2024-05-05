@@ -21,10 +21,10 @@ class TestController extends Controller
         //$posts = $postService->getUserPostsQueryByFilter(User::find(1));
 
         $posts = Post::all();
-        foreach ($posts as $post) {
-            $post->title = $post->id . ' : ' . $post->title;
-            $post->update();
-        }
+//        foreach ($posts as $post) {
+//            $post->title = $post->id . ' : ' . $post->title;
+//            $post->update();
+//        }
 //        foreach ($posts as $post) {
 //            $photo = null;
 //            $media = $post->getMedia('image');
