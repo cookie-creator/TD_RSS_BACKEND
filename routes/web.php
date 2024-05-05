@@ -13,8 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', static function () {
+    // For testing propose
+    return [
+        'message' => __('Created by :name', ['name' => 'Cookie']),
+    ];
 });
+
 
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.inde');
