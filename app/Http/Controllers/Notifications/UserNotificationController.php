@@ -15,7 +15,6 @@ class UserNotificationController extends Controller
     public function show(Request $request, UserNotificationService $notificationService)
     {
         $notifications = $notificationService->getNotifications($request);
-
         return UserNotificationResource::collection($notifications);
     }
 

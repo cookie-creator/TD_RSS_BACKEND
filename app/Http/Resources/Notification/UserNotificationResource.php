@@ -42,10 +42,12 @@ class UserNotificationResource extends JsonResource
 
         //$this->resource->load(['notification']);
 
+        $data = json_decode($this->resource->data, true);
+
         return [
-            'id'             => $this->resource->notification_id,
-            'title'          => $this->resource->title,
-            'description'    => $this->resource->description,
+            'id'             => $this->resource->id,
+            'title'          => $data['title'],
+            'description'    => $data['description'],
             'read'           => $read_at,
             'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];

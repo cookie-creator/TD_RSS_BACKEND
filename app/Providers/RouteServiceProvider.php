@@ -57,6 +57,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/categories.php'));
 
+            Route::prefix('api/v1/notifications')
+                ->middleware(['api', 'auth:sanctum'])
+                ->name('api.v1.notifications')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/notification.php'));
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
