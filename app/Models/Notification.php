@@ -30,6 +30,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
+ * @property-read mixed $content
+ * @property-read mixed $uuid
  * @mixin \Eloquent
  */
 class Notification extends Model
