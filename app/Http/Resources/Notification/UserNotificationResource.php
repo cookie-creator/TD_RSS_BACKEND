@@ -49,7 +49,8 @@ class UserNotificationResource extends JsonResource
             'title'          => $data['title'],
             'description'    => $data['description'],
             'read'           => $read_at,
-            'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
+            'date'     => $this->created_at,
+            //'created_at'     => Carbon::parse($this->created_at)->format('Y-m-d H:i:s')
         ];
     }
 }

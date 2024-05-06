@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use App\Helpers\Pagination\PaginationHelper;
+use Illuminate\Support\Facades\DB;
 
 class UserNotificationService
 {
-    public const PER_PAGE = 14;
+    public const PER_PAGE = 8;
 
     public const SHOW = 140;
-    public const RECENT_SHOW = 10;
+    public const RECENT_SHOW = 4;
 
     /**
      * @param Request $request
@@ -35,9 +36,9 @@ class UserNotificationService
             $query->where('title', 'like', "%{$search}%");
         }
 
-        $notifications = $query->latest('created_at')->take(self::SHOW);
-
-        return PaginationHelper::paginate($notifications, self::PER_PAGE);
+//        $notifications = $query->latest('created_at')->take(self::SHOW);
+//        return PaginationHelper::paginate($notifications, self::PER_PAGE);
+        return $query->latest()->paginate(self::PER_PAGE);
     }
 
     /**

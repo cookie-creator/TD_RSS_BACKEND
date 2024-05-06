@@ -15,8 +15,8 @@ class TestController extends Controller
     {
         //$feedRSSService::start();
 
-        $user = User::find(1);
-        $user->notify(new NewPostsWasImportedFromFeed($user, 3));
+        //$user = User::find(1);
+        //$user->notify(new NewPostsWasImportedFromFeed($user, 3));
 
         //$posts = $postService->getUserPostsQueryByFilter(User::find(1));
 
