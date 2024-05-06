@@ -22,9 +22,9 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(NotificationRequest $request, PostService $postService)
+    public function index(Request $request, PostService $postService)
     {
-        $postQuery = $postService->getUserPostsQueryByFilter(auth()->user(), $request->validated());
+        $postQuery = $postService->getUserPostsQueryByFilter(auth()->user(), $request->all());
 
         $posts = $request->boolean('all') ? $postQuery->get() : $postQuery->paginate($request->get('perPage', 15));
 

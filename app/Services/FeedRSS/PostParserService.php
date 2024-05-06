@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\ParseRSS;
+namespace App\Services\FeedRSS;
 
 use Exception;
 use Illuminate\Support\Collection;
 use Saloon\XmlWrangler\XmlReader;
 
-class ParsePostService
+class PostParserService
 {
     /**
      * @param $content

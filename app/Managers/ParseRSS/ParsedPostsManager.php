@@ -13,6 +13,7 @@ use App\Notifications\NewPostsWasImportedFromFeed;
 class ParsedPostsManager
 {
     private User $user;
+
     /**
      * @param Collection $parsedPosts
      * @return void
@@ -89,35 +90,15 @@ class ParsedPostsManager
     {
         if ($imageUrl) {
             try {
-            $imageContents = file_get_contents($imageUrl);
-            $imageName = last(explode('/', $imageUrl));
+                $imageContents = file_get_contents($imageUrl);
+                $imageName = last(explode('/', $imageUrl));
 
-            $post->clearMediaCollection('image');
-            $post->addMediaFromString($imageContents)
-                ->usingFileName($imageName)
-                ->toMediaCollection('image');
+                $post->clearMediaCollection('image');
+                $post->addMediaFromString($imageContents)
+                    ->usingFileName($imageName)
+                    ->toMediaCollection('image');
             } catch (Exception $e) {
             }
         }
     }
-
-    public function cutFilename($string)
-    {
-
-    }
-
-    /**
-     * @param string $string
-     * @return string
-     */
-//    public function makeSlug(string $string): string
-//    {
-//        $slug = strtolower($string);
-//        $slug = preg_replace('/[^a-z0-9-_\s]/', '', $slug);
-//        $slug = str_replace(' ', '-', $slug);
-//        $slug = preg_replace('/-+/', '-', $slug);
-//        $slug = trim($slug, '-');
-//
-//        return $slug;
-//    }
 }

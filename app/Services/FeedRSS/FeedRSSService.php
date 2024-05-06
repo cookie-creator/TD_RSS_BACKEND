@@ -4,7 +4,6 @@ namespace App\Services\FeedRSS;
 
 use App\Adapter\APIAdapter\WebAPI;
 use App\Managers\ParseRSS\ParsedPostsManager;
-use App\Services\ParseRSS\ParsePostService;
 
 class FeedRSSService
 {
@@ -12,7 +11,7 @@ class FeedRSSService
     {
         $feed = WebAPI::getFeed();
 
-        $parser = new ParsePostService();
+        $parser = new PostParserService();
         $posts = $parser->parsePosts($feed);
 
         $manager = new ParsedPostsManager();

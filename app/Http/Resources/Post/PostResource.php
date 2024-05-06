@@ -28,19 +28,20 @@ class PostResource extends JsonResource
         }
 
         return [
-            'id'          => $this->id,
-            'title'       => $this->title,
-            'guid'        => $this->guid,
-            'description' => $this->description,
-            'thumbnail'   => $this->thumbnail,
-            'image'       => $photo,
-            'content'     => $this->content,
-            'link'        => $this->link,
-            'slug'        => $this->slug,
-            'user_id'     => $this->user_id,
-            'category_id' => $this->category_id,
-            'date'        => $this->created_at,
-            'deleted_at'  => $this->deleted_at,
+            'id'            => $this->id,
+            'title'         => $this->title,
+            'guid'          => $this->guid,
+            'description'   => $this->description,
+            'thumbnail'     => $this->thumbnail,
+            'image'         => $photo,
+            'content'       => $this->content,
+            'link'          => $this->link,
+            'slug'          => $this->slug,
+            'user_id'       => $this->user_id,
+            'category_id'   => $this->category_id,
+            'category_name' => $this->category->name,
+            'date'          => $this->created_at,
+            'deleted_at'    => $this->deleted_at,
         ];
     }
 }

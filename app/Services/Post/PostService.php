@@ -32,14 +32,18 @@ class PostService
         $fromDate = $attributes['from_date'] ?? false;
         $toDate = $attributes['to_date'] ?? false;
         $search = $attributes['search'] ?? false;
+        $category_id = $attributes['category_id'] ?? false;
 
         $postQuery = Post::query()
             ->where('user_id', $user->id)
             ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
                 $query->whereBetween('created_at', [$fromDate, $toDate]);
             })
+            ->when($category_id, function ($query) use ($category_id) {
+                $query->where('category_id', $category_id);
+            })
             ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', "%$search%");
+                $query->where('title', 'like', "%$search%");
             })
             ->latest();
         return $postQuery;
