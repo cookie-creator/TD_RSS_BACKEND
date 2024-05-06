@@ -34,6 +34,12 @@ class PostService
         $search = $attributes['search'] ?? false;
         $category_id = $attributes['category_id'] ?? false;
 
+        // Sorting
+        $availableSorting = ['created_at-desc', 'created_at-asc', 'title-asc', 'title-desc'];
+        $sorting = (isset($attributes['sorting']) && in_array($attributes['sorting'], $availableSorting, true)) ? $attributes['sorting'] : 'created_at-desc';
+        $sortingField = explode('-', $sorting)[0];
+        $sortingDirection = explode('-', $sorting)[1];
+
         $postQuery = Post::query()
             ->where('user_id', $user->id)
             ->when($fromDate && $toDate, function ($query) use ($fromDate, $toDate) {
@@ -45,7 +51,10 @@ class PostService
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'like', "%$search%");
             })
-            ->latest();
+            ->when($search, function ($query) use ($search) {
+                $query->where('title', 'like', "%$search%");
+            })
+            ->orderBy($sortingField, $sortingDirection);
         return $postQuery;
     }
 

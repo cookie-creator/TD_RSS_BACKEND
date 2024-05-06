@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new FeedFromRss)->cron('0 * * * *');
-        $schedule->job(new FeedFromRss)->cron('*/5 * * * *');
     }
 
     /**

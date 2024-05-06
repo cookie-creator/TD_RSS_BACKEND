@@ -1,3 +1,16 @@
+## Backend features
+Developed using TDD principles
+Spent 49 hours to implement all features
+### Backend features
+- Implemented feeding from `https://lifehacker.com/feed/rss` using job what scheduled running every 1 hour.
+- Implemented Unit Tests based on Pest
+- Added Request-docs lib to create API requests for developing using Postman
+- Created CRUD for Posts, Categories, Notifications
+- Created Admin UI SPA based on Vue.js
+- Auth for Admin UI used JWT Auth based on Bearer Token
+- For the Posts entity have been created filter based on Search,Category,Sorting and Pagination
+- Implemented fully functioning Posts, Categories, Notification pages
+
 # Installation
 
 - Create .env from .env.example in ***root*** directory:
@@ -18,17 +31,6 @@ make install-php
 ```
 make up
 ```
-
-## TODO: Review and update documentation below
-
-### Hints:
-
-- Install entity: `` sudo apt install entity ``
-- Install docker and docker-compose:
-    1. `` sudo apt install -y docker.io docker-compose ``
-    2. `` sudo systemctl enable docker.service ``
-    3. `` sudo usermod -a -G docker $(whoami) ``
-    4. Reboot system
 
 ### Package commands:
 
