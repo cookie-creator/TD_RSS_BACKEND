@@ -45,7 +45,6 @@ artisan_action () {
         'view:clear'
         'optimize'
         'migrate --force'
-        'migrate:fresh --seed'
     )
     cd /var/www/api/
     for action in "${action[@]}"; do

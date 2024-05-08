@@ -19,6 +19,3 @@ Route::get('/', static function () {
         'message' => __('Created by :name', ['name' => 'Cookie']),
     ];
 });
-
-
-Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.inde');
