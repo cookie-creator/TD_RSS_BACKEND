@@ -45,7 +45,7 @@ services:
     restart: always
     env_file:
       - .env.docker
-    command: [ "./.ci-cd/entrypoint.sh", "/usr/local/bin/php /var/www/api/artisan queue:work --queue default,update_jira_issues,jira_tokens_update,jira_webhook_update,jira_resync,payments" ]
+    command: [ "./.ci-cd/entrypoint.sh", "/usr/local/bin/php /var/www/api/artisan queue:work --queue default" ]
 
   mysql:
     image: mysql/mysql-server:8.0
